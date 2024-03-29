@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -63,15 +62,24 @@ class MainActivity : AppCompatActivity() {
 
 
         musicList = getAllAudio()
-        Log.d("TAG", "onCreate: $musicList")
+
+
+
         binding.apply {
             rvMusic.layoutManager = LinearLayoutManager(this@MainActivity)
-            rvMusic.adapter = MusicAdapter(this@MainActivity, musicList)
+            rvMusic.adapter = MusicAdapter(this@MainActivity, musicList,::onItemClicked)
         }
 
         binding.favoriteBtn.setOnClickListener {
-            startActivity(Intent(this@MainActivity, PlayerActivity::class.java))
+
         }
+    }
+
+    private fun onItemClicked(position: Int){
+        val intent = Intent(this@MainActivity,PlayerActivity::class.java)
+        intent.putExtra("index",position)
+        intent.putExtra("class","MusicAdapter")
+        startActivity(intent)
     }
 
     @SuppressLint("Recycle", "Range")
@@ -122,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                         val displayName = getString(displayNameColumn)
                         val artist = getString(artistColumn)
                         val data = getString(dataColumn)
-                        val duration = getInt(durationColumn)
+                        val duration = getLong(durationColumn)
                         val albumId = getLong(albumIdColumn)
 
                         val uri = Uri.parse("content://media/external/audio/albumart")
