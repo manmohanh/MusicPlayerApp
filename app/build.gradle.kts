@@ -50,4 +50,7 @@ dependencies {
 
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    //for notification
+    implementation("androidx.media:media:1.7.0")
 }
