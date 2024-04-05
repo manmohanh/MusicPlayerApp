@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.WindowManager
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -29,6 +31,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        enableEdgeToEdge()
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         val requestPermissionLauncher =
             registerForActivityResult(
@@ -70,9 +78,7 @@ class MainActivity : AppCompatActivity() {
             rvMusic.adapter = MusicAdapter(this@MainActivity, musicList,::onItemClicked)
         }
 
-        binding.favoriteBtn.setOnClickListener {
 
-        }
     }
 
     private fun onItemClicked(position: Int){
